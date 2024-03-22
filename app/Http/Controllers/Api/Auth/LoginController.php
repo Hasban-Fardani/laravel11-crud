@@ -24,8 +24,6 @@ class LoginController extends Controller
         }
 
         $user = User::findOrFail(auth()->user()->id);
-        return (new UserResource("Success Login", $user->createToken($user->name)->plainTextToken, $user))
-            ->response()
-            ->setStatusCode(401);
+        return new UserResource("Success Login", $user->createToken($user->name)->plainTextToken, $user);
     }
 }

@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -76,6 +81,10 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        if (!auth()->check()){
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
         // validate request
         $validation = Validator::make($request->all() ,[
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -120,6 +129,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if (!auth()->check()){
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
         // delete post
         $post->delete();
         return (new PostResource(200, "Data Post Berhasil Dihapus", $post))
