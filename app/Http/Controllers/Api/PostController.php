@@ -120,6 +120,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        // delete post
+        $post->delete();
+        return (new PostResource(200, "Data Post Berhasil Dihapus", $post))
+            ->response()
+            ->setStatusCode(200);
     }
 }
